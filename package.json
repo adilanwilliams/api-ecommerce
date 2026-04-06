@@ -1,0 +1,29 @@
+{
+  "name": "api-ecommerce",
+  "version": "1.0.0",
+  "description": "Backend basico para ser usado como templete para projetos de e-commerce gerais.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adilanwilliams/api-ecommerce.git"
+  },
+  "keywords": [],
+  "author": "Adilan Williams",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/adilanwilliams/api-ecommerce/issues"
+  },
+  "homepage": "https://github.com/adilanwilliams/api-ecommerce#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
