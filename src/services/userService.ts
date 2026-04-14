@@ -9,11 +9,11 @@ class UserService {
     }
     
 
-    public create(user: UserModel) {
+    public create = (user: UserModel) => {
         this.userRepository.create(user)
     }
 
-    public findAll() {
+    public findAll = () => {
         return this.userRepository.findAll()
     }
 }

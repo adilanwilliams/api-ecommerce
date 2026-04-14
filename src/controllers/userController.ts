@@ -9,9 +9,8 @@ class UserController {
         this.userService = service
     }
 
-    async create(req: Request, res: Response) {
+    public create = async (req: Request, res: Response) => {
         const body = req.body as UserModel
-
         const userCreated = this.userService.create(body)
 
         res.status(200).json({
@@ -21,7 +20,7 @@ class UserController {
         })
     }
 
-    async findAll(req: Request, res: Response) {
+    public findAll = (req: Request, res: Response) => {
         const users = this.userService.findAll()
 
         res.status(200).json({

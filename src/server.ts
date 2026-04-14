@@ -1,29 +1,29 @@
-import express from "express";
+import type { Application, Router } from "express"
+import express from "express"
 
 class Server {
-    private api = express()
-    private router;
+    private app: Application
+    private routers: Router[] = []
     private port: number
 
     constructor() {
+        this.app = express()
         this.port = 8000
-        this.router = express.Router()
+
+        this.app.use(express.json())
     }
 
-    public init() {
-        this.api.use(express.json)
-        this.api.use("/api/v1", this.router)
-    }
-
-    public getRouter() {
-        return this.router
+    public addRouter(_router: Router ) {     
+        this.routers.push(_router)
     }
 
     public run() {
-        this.api.listen(this.port, function () {
+        this.routers.map(router => this.app.use(router))
+
+        this.app.listen(this.port, function () {
             console.log("backend is running")
         })
     }
 }
 
-export default Server;
+export default Server
