@@ -1,3 +1,4 @@
+import "dotenv/config.js"
 import UserRouter from "./routes/userRouter.js";
 import Server from "./server.js";
 

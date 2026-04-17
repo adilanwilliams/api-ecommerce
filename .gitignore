@@ -142,3 +142,7 @@ vite.config.ts.timestamp-*
 .vscode
 .http-test
 .env.development.local
+
+/../../../../generated/prisma
+
+/src/generated/prisma

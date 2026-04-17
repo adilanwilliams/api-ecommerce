@@ -1,5 +1,5 @@
-import type UserModel from "../models/userModel.js";
 import Database from "../database/database.js";
+import type { User } from "../generated/prisma/client.js";
 
 class UserRepository {
     private database: Database
@@ -8,15 +8,30 @@ class UserRepository {
         this.database = new Database()
     }
 
+    public create = async (_user: User): Promise<boolean> => {
+        const prisma = this.database.getPrisma()
+        try{
+            const userCreated = await prisma.user.create({
+                data: _user
+            })
 
-    public create = (user: UserModel) => {
-        const users = this.database.find();
-        users.push(user);
-        this.database.save(users);
+            if (userCreated) return true
+        }catch(error: any) {
+            return false
+        }
+
+       return true
+        
     }
 
-    public findAll = () => {
-        return this.database.find();
+    public findAll = async () => {
+        const prisma = this.database.getPrisma()
+        const users = await prisma.user.findMany()
+        return users
+    }
+
+    public findById = async () => {
+
     }
 }
 

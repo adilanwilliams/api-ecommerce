@@ -1,6 +1,7 @@
 import type { Request, Response } from "express"
-import type UserModel from "../models/userModel.js"
 import type UserService from "../services/userService.js"
+import { ServiceError } from "../utils/errors.js"
+import { HttpStatus, ResponseHTTP } from "../utils/http.js"
 
 class UserController {
     private userService: UserService
@@ -10,18 +11,21 @@ class UserController {
     }
 
     public create = async (req: Request, res: Response) => {
-        const body = req.body as UserModel
-        const userCreated = this.userService.create(body)
+        const body = req.body
+        try {
+            const userCreated = await this.userService.create(body)
+            ResponseHTTP.json(res, HttpStatus.CREATED, "user created", userCreated)
 
-        res.status(200).json({
-            success: true,
-            message: "user created succesfully",
-            data: userCreated,
-        })
+        } catch (error: any) {
+            if (error instanceof ServiceError) {
+                ResponseHTTP.json(res, HttpStatus.BAD_REQUEST, error.message)
+            }
+        }
+
     }
 
-    public findAll = (req: Request, res: Response) => {
-        const users = this.userService.findAll()
+    public findAll = async (req: Request, res: Response) => {
+        const users = await this.userService.findAll()
 
         res.status(200).json({
             success: true,

@@ -1,5 +1,6 @@
-import type UserModel from "../models/userModel.js";
+import type { User } from "../generated/prisma/client.js";
 import type UserRepository from "../repository/userRepository.js";
+
 
 class UserService {
     private userRepository: UserRepository
@@ -7,14 +8,14 @@ class UserService {
     constructor(repository: UserRepository) {
         this.userRepository = repository
     }
-    
 
-    public create = (user: UserModel) => {
-        this.userRepository.create(user)
+    public create = async (user: User) => {
+        await this.userRepository.create(user)
+
     }
 
-    public findAll = () => {
-        return this.userRepository.findAll()
+    public findAll = async () => {
+        return await this.userRepository.findAll()
     }
 }
 
