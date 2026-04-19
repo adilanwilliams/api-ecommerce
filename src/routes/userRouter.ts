@@ -18,8 +18,13 @@ class UserRouter {
     }
 
     public init = () => {
-        this.router.post("/user", this.controller.create)
         this.router.get("/users", this.controller.findAll)
+        this.router.get("/user/:id", this.controller.findById)
+        this.router.get("/users/:name", this.controller.findByName)
+
+        this.router.post("/user", this.controller.create)
+        this.router.put("/user", this.controller.update)
+        this.router.delete("/user/:id", this.controller.delete)
     }
 
     public getRouter = () => {

@@ -4,11 +4,11 @@ import express from "express"
 class Server {
     private app: Application
     private routers: Router[] = []
-    private port: number
+    private port: string | undefined
 
     constructor() {
         this.app = express()
-        this.port = 8000
+        this.port = process.env.HOST_PORT
 
         this.app.use(express.json())
     }
@@ -18,10 +18,11 @@ class Server {
     }
 
     public run() {
-        this.routers.map(router => this.app.use(router))
-
-        this.app.listen(this.port, function () {
-            console.log("backend is running")
+        this.routers.map(router => this.app.use("/api/v1", router))
+        const port = this.port
+        
+        this.app.listen(port, function () {
+            console.log(`backend is running on port ${port}`)
         })
     }
 }

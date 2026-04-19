@@ -33,10 +33,18 @@ export enum HttpStatus {
 }
 
 export class ResponseHTTP {
-    static json = (res: Response, statusCode: HttpStatus, message: string, data?: any) => {
-        res.status(statusCode).json({
-            message: message,
+    private static json = (res: Response, code: HttpStatus, success: boolean, data?: any) => {
+        res.status(code).json({
+            success: success,
             data: data
         })
+    }
+
+    static success = (res: Response, code: HttpStatus, data?: any) => {
+        this.json(res, code, true, data)
+    }
+
+    static error = (res: Response, code: HttpStatus, data?: any) => {
+        this.json(res, code, false, data)
     }
 }

@@ -1,38 +1,65 @@
+
 import Database from "../database/database.js";
-import type { User } from "../generated/prisma/client.js";
+import type { PrismaClient, User } from "../generated/prisma/client.js";
 
 class UserRepository {
     private database: Database
+    private prisma: PrismaClient
 
     constructor() {
         this.database = new Database()
+        this.prisma = this.database.getPrisma()
     }
 
-    public create = async (_user: User): Promise<boolean> => {
-        const prisma = this.database.getPrisma()
-        try{
-            const userCreated = await prisma.user.create({
-                data: _user
-            })
-
-            if (userCreated) return true
-        }catch(error: any) {
-            return false
-        }
-
-       return true
-        
+    public create = async (_user: User) => {
+        await this.prisma.user.create({
+            data: _user
+        })
     }
+
 
     public findAll = async () => {
-        const prisma = this.database.getPrisma()
-        const users = await prisma.user.findMany()
+        const users = await this.prisma.user.findMany()
         return users
     }
 
-    public findById = async () => {
+    public findById = async (id: number) => {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id
+            }
+        })
 
+        return user
     }
+
+    public update = async (_user: User) => {
+        await this.prisma.user.update({
+            data: _user,
+            where: {
+                id: _user.id
+            }
+        })
+    }
+
+    public delete = async (id: number) => {
+        await this.prisma.user.delete({
+            where: {
+                id
+            }
+        })
+    }
+
+    public findByName = async (name: string) => {
+        const users = await this.prisma.user.findMany({
+            where: {
+                name
+            }
+        })
+
+        return users
+    }
+
 }
 
 export default UserRepository;
